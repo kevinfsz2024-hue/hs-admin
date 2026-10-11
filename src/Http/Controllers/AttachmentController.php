@@ -19,10 +19,11 @@ class AttachmentController extends AdminController
     {
         return Grid::make(new GeneralAttachment(), function (Grid $grid) {
             $grid->column('id', 'ID')->sortable();
-            $grid->column('name', '文件')->display(function ($name, $column, GeneralAttachment $attachment) {
-                $url = $attachment->url();
+            $grid->column('name', '文件')->display(function ($name) {
+                /* @var GeneralAttachment $this */
+                $url = $this->url();
 
-                $preview = $attachment->isImage()
+                $preview = $this->isImage()
                     ? '<img src="'.$url.'" style="max-width:36px;max-height:36px;border-radius:4px;vertical-align:middle;margin-right:6px">'
                     : '<i data-feather="file" style="width:16px;vertical-align:middle;margin-right:6px"></i>';
 

@@ -15,5 +15,6 @@ Route::group([
 
     $router->resource('general/configs', 'SystemConfigController');
     $router->resource('general/attachments', 'AttachmentController');
-    $router->resource('general/exports', 'DataExportController', ['only' => ['index', 'destroy']]);
+    // 导出记录不可编辑/查看，仅开放列表、创建与删除
+    $router->resource('general/exports', 'DataExportController', ['only' => ['index', 'create', 'store', 'destroy']]);
 });
