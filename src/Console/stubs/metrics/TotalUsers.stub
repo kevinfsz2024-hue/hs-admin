@@ -22,12 +22,12 @@ class TotalUsers extends Card
     {
         parent::init();
 
-        $this->title('Total Users');
+        $this->title('用户总量');
         $this->dropdown([
-            '7' => 'Last 7 Days',
-            '28' => 'Last 28 Days',
-            '30' => 'Last Month',
-            '365' => 'Last Year',
+            '7' => '近 7 天',
+            '28' => '近 28 天',
+            '30' => '上月',
+            '365' => '去年',
         ]);
     }
 

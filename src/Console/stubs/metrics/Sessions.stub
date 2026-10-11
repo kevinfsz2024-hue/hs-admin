@@ -22,13 +22,13 @@ class Sessions extends Bar
         // 卡片内容宽度
         $this->contentWidth(5, 7);
         // 标题
-        $this->title('Avg Sessions');
+        $this->title('平均会话');
         // 设置下拉选项
         $this->dropdown([
-            '7' => 'Last 7 Days',
-            '28' => 'Last 28 Days',
-            '30' => 'Last Month',
-            '365' => 'Last Year',
+            '7' => '近 7 天',
+            '28' => '近 28 天',
+            '30' => '上月',
+            '365' => '去年',
         ]);
         // 设置图表颜色
         $this->chartColors([
@@ -59,7 +59,7 @@ class Sessions extends Bar
                 // 图表数据
                 $this->withChart([
                     [
-                        'name' => 'Sessions',
+                        'name' => '会话',
                         'data' => [75, 125, 225, 175, 125, 75, 25],
                     ],
                 ]);
@@ -93,7 +93,7 @@ class Sessions extends Bar
     {
         // 根据选项显示
         $label = strtolower(
-            $this->dropdown[request()->option] ?? 'last 7 days'
+            $this->dropdown[request()->option] ?? '近 7 天'
         );
 
         $minHeight = '183px';
@@ -109,7 +109,7 @@ class Sessions extends Bar
         </h5>
     </div>
 
-    <a href="#" class="btn btn-primary shadow waves-effect waves-light">View Details <i class="feather icon-chevrons-right"></i></a>
+    <a href="#" class="btn btn-primary shadow waves-effect waves-light">查看详情 <i class="feather icon-chevrons-right"></i></a>
 </div>
 HTML
         );

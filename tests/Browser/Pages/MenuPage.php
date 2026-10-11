@@ -30,13 +30,12 @@ class MenuPage extends Page
             ->assertSeeText(__('admin.save'))
             ->assertSeeText(__('admin.new'))
             ->whenAvailable('@tree', function (Browser $browser) {
-                $browser->assertSeeText('Menu')
-                    ->assertSeeText('Index')
-                    ->assertSeeText('Admin')
-                    ->assertSeeText('Users')
-                    ->assertSeeText('Roles')
-                    ->assertSeeText('Permission')
-                    ->assertSeeText('Menu');
+                $browser->assertSeeText('首页')
+                    ->assertSeeText('系统')
+                    ->assertSeeText('管理员')
+                    ->assertSeeText('角色')
+                    ->assertSeeText('权限')
+                    ->assertSeeText('菜单');
             }, 1)
             ->within('@form', function (Browser $browser) {
                 $browser->assertSeeText(__('admin.parent_id'))

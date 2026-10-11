@@ -1,30 +1,12 @@
 <?php
 
+use Dcat\Admin\Support\MemberMenus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateMemberTables extends Migration
 {
-    /**
-     * 随迁移写入的默认菜单（会员管理分组）.
-     *
-     * @var array
-     */
-    protected $menus = [
-        'title' => '会员管理',
-        'icon' => 'users',
-        'uri' => null,
-        'children' => [
-            ['title' => '会员管理', 'icon' => 'user', 'uri' => 'member'],
-            ['title' => '会员分组管理', 'icon' => 'users', 'uri' => 'member/groups'],
-            ['title' => '会员规则管理', 'icon' => 'list', 'uri' => 'member/rules'],
-            ['title' => '会员余额管理', 'icon' => 'credit-card', 'uri' => 'member/balance-logs'],
-            ['title' => '会员积分管理', 'icon' => 'gift', 'uri' => 'member/points-logs'],
-        ],
-    ];
-
     public function getConnection()
     {
         return config('admin.database.connection') ?: config('database.default');
@@ -89,7 +71,7 @@ class CreateMemberTables extends Migration
             $table->timestamps();
         });
 
-        $this->insertMenus();
+        MemberMenus::seed($this->getConnection());
     }
 
     public function down()
@@ -100,54 +82,6 @@ class CreateMemberTables extends Migration
         Schema::dropIfExists('member_users');
         Schema::dropIfExists('member_groups');
 
-        $menu = $this->menus;
-        $parent = DB::connection($this->getConnection())
-            ->table('admin_menu')
-            ->where('title', $menu['title'])
-            ->where('uri', $menu['uri'])
-            ->first();
-        if ($parent) {
-            DB::connection($this->getConnection())
-                ->table('admin_menu')
-                ->where('parent_id', $parent->id)
-                ->delete();
-            DB::connection($this->getConnection())
-                ->table('admin_menu')
-                ->where('id', $parent->id)
-                ->delete();
-        }
-    }
-
-    protected function insertMenus()
-    {
-        $connection = DB::connection($this->getConnection());
-        $menuTable = $connection->table('admin_menu');
-
-        if ($menuTable->where('title', $this->menus['title'])->where('uri', $this->menus['uri'])->exists()) {
-            return;
-        }
-
-        $parentId = $menuTable->insertGetId([
-            'parent_id' => 0,
-            'order' => 2,
-            'title' => $this->menus['title'],
-            'icon' => $this->menus['icon'],
-            'uri' => $this->menus['uri'],
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $order = 1;
-        foreach ($this->menus['children'] as $child) {
-            $menuTable->insert([
-                'parent_id' => $parentId,
-                'order' => $order++,
-                'title' => $child['title'],
-                'icon' => $child['icon'],
-                'uri' => $child['uri'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        MemberMenus::remove($this->getConnection());
     }
 }

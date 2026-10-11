@@ -2,7 +2,9 @@
 
 namespace Dcat\Admin\Models;
 
+use Dcat\Admin\Support\MemberMenus;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AdminTablesSeeder extends Seeder
 {
@@ -20,19 +22,21 @@ class AdminTablesSeeder extends Seeder
         Administrator::create([
             'username'   => 'admin',
             'password'   => bcrypt('admin'),
-            'name'       => 'Administrator',
+            'name'       => '管理员',
             'created_at' => $createdAt,
         ]);
 
         // create a role.
         Role::truncate();
         Role::create([
-            'name'       => 'Administrator',
+            'name'       => '管理员',
             'slug'       => Role::ADMINISTRATOR,
             'created_at' => $createdAt,
         ]);
 
         // add role to user.
+        // 重置数据时先清空用户-角色关联，避免唯一键冲突导致种子中断
+        DB::table(config('admin.database.role_users_table'))->truncate();
         Administrator::first()->roles()->save(Role::first());
 
         //create a permission
@@ -40,7 +44,7 @@ class AdminTablesSeeder extends Seeder
         Permission::insert([
             [
                 'id'          => 1,
-                'name'        => 'Auth management',
+                'name'        => '权限管理',
                 'slug'        => 'auth-management',
                 'http_method' => '',
                 'http_path'   => '',
@@ -50,7 +54,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 2,
-                'name'        => 'Users',
+                'name'        => '用户',
                 'slug'        => 'users',
                 'http_method' => '',
                 'http_path'   => '/auth/users*',
@@ -60,7 +64,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 3,
-                'name'        => 'Roles',
+                'name'        => '角色',
                 'slug'        => 'roles',
                 'http_method' => '',
                 'http_path'   => '/auth/roles*',
@@ -70,7 +74,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 4,
-                'name'        => 'Permissions',
+                'name'        => '权限',
                 'slug'        => 'permissions',
                 'http_method' => '',
                 'http_path'   => '/auth/permissions*',
@@ -80,7 +84,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 5,
-                'name'        => 'Menu',
+                'name'        => '菜单',
                 'slug'        => 'menu',
                 'http_method' => '',
                 'http_path'   => '/auth/menu*',
@@ -90,7 +94,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 6,
-                'name'        => 'Extension',
+                'name'        => '扩展',
                 'slug'        => 'extension',
                 'http_method' => '',
                 'http_path'   => '/auth/extensions*',
@@ -108,7 +112,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 0,
                 'order'         => 1,
-                'title'         => 'Index',
+                'title'         => '首页',
                 'icon'          => 'feather icon-bar-chart-2',
                 'uri'           => '/',
                 'created_at'    => $createdAt,
@@ -116,7 +120,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 0,
                 'order'         => 2,
-                'title'         => 'Admin',
+                'title'         => '系统',
                 'icon'          => 'feather icon-settings',
                 'uri'           => '',
                 'created_at'    => $createdAt,
@@ -124,7 +128,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 3,
-                'title'         => 'Users',
+                'title'         => '管理员',
                 'icon'          => '',
                 'uri'           => 'auth/users',
                 'created_at'    => $createdAt,
@@ -132,7 +136,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 4,
-                'title'         => 'Roles',
+                'title'         => '角色',
                 'icon'          => '',
                 'uri'           => 'auth/roles',
                 'created_at'    => $createdAt,
@@ -140,7 +144,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 5,
-                'title'         => 'Permission',
+                'title'         => '权限',
                 'icon'          => '',
                 'uri'           => 'auth/permissions',
                 'created_at'    => $createdAt,
@@ -148,7 +152,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 6,
-                'title'         => 'Menu',
+                'title'         => '菜单',
                 'icon'          => '',
                 'uri'           => 'auth/menu',
                 'created_at'    => $createdAt,
@@ -156,7 +160,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 7,
-                'title'         => 'Extensions',
+                'title'         => '扩展',
                 'icon'          => '',
                 'uri'           => 'auth/extensions',
                 'created_at'    => $createdAt,
@@ -164,5 +168,10 @@ class AdminTablesSeeder extends Seeder
         ]);
 
         (new Menu())->flushCache();
+
+        // 重置数据会清空菜单表，这里补回会员管理模块菜单
+        if (config('admin.member.enable', true)) {
+            MemberMenus::seed();
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Cases;
 
-use Dcat\Admin\Admin;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use PHPUnit\Framework\Attributes\Group;
@@ -46,38 +45,22 @@ class AuthTest extends DuskTestCase
                 ->press(__('admin.login'))
                 ->waitForLocation(admin_base_path('/'), 3)
                 ->assertPathIs(admin_base_path('/'))
-                ->assertSeeText('Administrator')
-                ->assertSeeText('Dashboard')
-                ->assertSeeText('Description...')
-                ->assertSeeText('New Users')
-                ->assertSeeText('New Devices')
-                ->assertSeeText('Tickets')
+                ->assertSeeText('管理员')
+                ->assertSeeText('仪表盘')
+                ->assertSeeText('数据概览')
+                ->assertSeeText('新增用户')
+                ->assertSeeText('新增设备')
+                ->assertSeeText('工单')
                 ->assertSeeText((__('admin.documentation')))
                 ->assertSeeText((__('admin.extensions')))
                 ->assertSeeText((__('admin.demo')))
                 ->assertSeeText('GITHUB');
 
             $browser->within('.main-menu-content', function (Browser $browser) {
-                $browser->assertSeeText('Admin')
-                    ->clickLink($this->translateMenuTitle('Admin'));
-//                    ->waitForText($this->translateMenuTitle('Users'), 1)
-//                    ->waitForText($this->translateMenuTitle('Roles'), 1)
-//                    ->waitForText($this->translateMenuTitle('Permission'), 1)
-//                    ->waitForText($this->translateMenuTitle('Operation log'), 1)
-//                    ->waitForText($this->translateMenuTitle('Menu'), 1);
+                $browser->assertSeeText('系统')
+                    ->clickLink('系统');
             });
         });
-    }
-
-    /**
-     * 翻译菜单标题.
-     *
-     * @param $title
-     * @return string
-     */
-    protected function translateMenuTitle($title)
-    {
-        return Admin::menu()->translate($title);
     }
 
     public function testLogout()

@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Cases;
 
-use Dcat\Admin\Admin;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use PHPUnit\Framework\Attributes\Group;
@@ -19,12 +18,12 @@ class IndexTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(admin_base_path('/'))
                 ->pause(200)
-                ->assertSeeText('Administrator')
-                ->assertSeeText('Dashboard')
-                ->assertSeeText('Description...')
-                ->assertSeeText('New Users')
-                ->assertSeeText('New Devices')
-                ->assertSeeText('Tickets')
+                ->assertSeeText('管理员')
+                ->assertSeeText('仪表盘')
+                ->assertSeeText('数据概览')
+                ->assertSeeText('新增用户')
+                ->assertSeeText('新增设备')
+                ->assertSeeText('工单')
                 ->assertSeeText(__('admin.documentation'))
                 ->assertSeeText(__('admin.extensions'))
                 ->assertSeeText(__('admin.demo'))
@@ -39,20 +38,10 @@ class IndexTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(admin_base_path('/'))
                 ->pause(500)
-                ->assertSeeIn('.main-menu-content', $this->translateMenuTitle('Admin'))
-                ->assertSeeIn('.main-menu-content', $this->translateMenuTitle('Helpers'))
-                ->assertSeeIn('.main-menu-content', $this->translateMenuTitle('Index'));
+                ->assertSeeIn('.main-menu-content', '系统')
+                ->assertSeeIn('.main-menu-content', '开发工具')
+                ->assertSeeIn('.main-menu-content', '首页')
+                ->assertSeeIn('.main-menu-content', '会员管理');
         });
-    }
-
-    /**
-     * 翻译菜单标题.
-     *
-     * @param $title
-     * @return string
-     */
-    protected function translateMenuTitle($title)
-    {
-        return Admin::menu()->translate($title);
     }
 }
