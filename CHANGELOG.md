@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 3.1.0 (2026-10-11)
+
+### 变更
+
+- **品牌白标**：composer 包名 `dcat/laravel-admin` → `hs/hs-admin`（`replace` 保留了 `dcat/laravel-admin` 别名），
+  界面标题 / Logo / 页脚 / 文档全部改为 HS Admin；代码命名空间保持 `Dcat\Admin` 不变，dcat 生态扩展仍可使用。
+- 扩展脚手架存根（`admin:extension`）目标包名同步改为 `hs/hs-admin ~3.0`，PHP 下限提升为 `^8.2`。
+
 ### 新增
 
 - 包内置**会员管理模块**（会员 / 分组 / 积分规则 / 余额流水 / 积分流水），安装即用，菜单随迁移写入；
