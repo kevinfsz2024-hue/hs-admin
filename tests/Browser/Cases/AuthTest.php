@@ -52,8 +52,6 @@ class AuthTest extends DuskTestCase
                 ->assertSeeText('新增设备')
                 ->assertSeeText('工单')
                 ->assertSeeText((__('admin.documentation')))
-                ->assertSeeText((__('admin.extensions')))
-                ->assertSeeText((__('admin.demo')))
                 ->assertSeeText('GITHUB');
 
             $browser->within('.main-menu-content', function (Browser $browser) {

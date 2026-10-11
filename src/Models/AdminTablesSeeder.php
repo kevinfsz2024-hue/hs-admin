@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Models;
 
+use Dcat\Admin\Support\GeneralMenus;
 use Dcat\Admin\Support\MemberMenus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -172,6 +173,11 @@ class AdminTablesSeeder extends Seeder
         // 重置数据会清空菜单表，这里补回会员管理模块菜单
         if (config('admin.member.enable', true)) {
             MemberMenus::seed();
+        }
+
+        // 重置数据会清空菜单表，这里补回常规管理模块菜单
+        if (config('admin.general.enable', true)) {
+            GeneralMenus::seed();
         }
     }
 }

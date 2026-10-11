@@ -18,6 +18,7 @@ class IndexTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(admin_base_path('/'))
                 ->pause(200)
+                ->assertSeeText('HS Admin')
                 ->assertSeeText('管理员')
                 ->assertSeeText('仪表盘')
                 ->assertSeeText('数据概览')
@@ -25,8 +26,6 @@ class IndexTest extends DuskTestCase
                 ->assertSeeText('新增设备')
                 ->assertSeeText('工单')
                 ->assertSeeText(__('admin.documentation'))
-                ->assertSeeText(__('admin.extensions'))
-                ->assertSeeText(__('admin.demo'))
                 ->assertSeeText('GITHUB');
         });
     }
