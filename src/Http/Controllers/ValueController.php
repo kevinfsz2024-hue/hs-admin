@@ -38,7 +38,7 @@ class ValueController
      */
     protected function resolve(Request $request)
     {
-        if (! $key = $request->get('_key')) {
+        if (! $key = $request->input('_key')) {
             throw new Exception('Invalid request.');
         }
 

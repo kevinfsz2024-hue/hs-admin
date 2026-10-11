@@ -50,7 +50,7 @@ class Sessions extends Bar
      */
     public function handle(Request $request)
     {
-        switch ($request->get('option')) {
+        switch ($request->input('option')) {
             case '7':
             default:
                 // 卡片内容

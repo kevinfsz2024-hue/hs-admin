@@ -9,14 +9,15 @@ use Tests\Browser\Components\Form\Field\Select2;
 use Tests\Browser\Components\Form\MenuEditForm;
 use Tests\Browser\Pages\MenuEditPage;
 use Tests\Browser\Pages\MenuPage;
-use Tests\TestCase;
+use Tests\DuskTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * 菜单管理功能测试.
  *
- * @group menu
  */
-class MenuTest extends TestCase
+#[Group('menu')]
+class MenuTest extends DuskTestCase
 {
     public function testMenuIndex()
     {

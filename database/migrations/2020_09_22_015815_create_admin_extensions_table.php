@@ -24,7 +24,7 @@ class CreateAdminExtensionsTable extends Migration
     public function up()
     {
         Schema::create($this->config('database.extensions_table') ?: 'admin_extensions', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->id();
             $table->string('name', 100)->unique();
             $table->string('version', 20)->default('');
             $table->tinyInteger('is_enabled')->default(0);
@@ -35,7 +35,7 @@ class CreateAdminExtensionsTable extends Migration
         });
 
         Schema::create($this->config('database.extension_histories_table') ?: 'admin_extension_histories', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
+            $table->id();
             $table->string('name', 100);
             $table->tinyInteger('type')->default(1);
             $table->string('version', 20)->default(0);

@@ -4,14 +4,15 @@ namespace Tests\Browser\Cases;
 
 use Dcat\Admin\Admin;
 use Laravel\Dusk\Browser;
-use Tests\TestCase;
+use Tests\DuskTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * 鉴权登陆功能测试.
  *
- * @group auth
  */
-class AuthTest extends TestCase
+#[Group('auth')]
+class AuthTest extends DuskTestCase
 {
     protected $login = false;
 

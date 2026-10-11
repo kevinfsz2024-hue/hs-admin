@@ -14,7 +14,7 @@ class CreateTestTables extends Migration
     public function up()
     {
         Schema::create('test_images', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('image1');
             $table->string('image2');
             $table->string('image3');
@@ -25,13 +25,13 @@ class CreateTestTables extends Migration
         });
 
         Schema::create('test_multiple_images', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->text('pictures');
             $table->timestamps();
         });
 
         Schema::create('test_files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('file1');
             $table->string('file2');
             $table->string('file3');
@@ -42,7 +42,7 @@ class CreateTestTables extends Migration
         });
 
         Schema::create('test_users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('username');
             $table->string('email');
             $table->string('mobile')->nullable();
@@ -52,7 +52,7 @@ class CreateTestTables extends Migration
         });
 
         Schema::create('test_user_profiles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('user_id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -68,7 +68,7 @@ class CreateTestTables extends Migration
         });
 
         Schema::create('test_tags', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
             $table->timestamps();
         });
@@ -81,14 +81,14 @@ class CreateTestTables extends Migration
         });
 
         Schema::create('test_painters', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('username')->default('');
             $table->string('bio')->default('');
             $table->timestamps();
         });
 
         Schema::create('test_paintings', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('painter_id')->default('');
             $table->string('title')->default('');
             $table->string('body')->nullable();

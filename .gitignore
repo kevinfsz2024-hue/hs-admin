@@ -10,3 +10,6 @@ pre-dist
 /laravel-tests
 *.bak.*
 .DS_Store
+
+.phpunit.cache/
+laravel-tests/

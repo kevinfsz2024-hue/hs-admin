@@ -40,7 +40,7 @@ class NewUsers extends Line
             }
         };
 
-        switch ($request->get('option')) {
+        switch ($request->input('option')) {
             case '365':
                 // 卡片内容
                 $this->withContent(mt_rand(1000, 5000).'k');

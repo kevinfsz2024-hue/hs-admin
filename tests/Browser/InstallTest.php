@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser;
 
 use Dcat\Admin\Admin;
-use Tests\TestCase;
+use Tests\DuskTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * 安装功能测试.
  *
- * @group install
  */
-class InstallTest extends TestCase
+#[Group('install')]
+class InstallTest extends DuskTestCase
 {
     protected $login = false;
 

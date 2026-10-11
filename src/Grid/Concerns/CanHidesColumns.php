@@ -23,6 +23,11 @@ trait CanHidesColumns
     private $columnSelectorStorage;
 
     /**
+     * @var array|null
+     */
+    protected $visibleColumnsFromQuery;
+
+    /**
      * Remove column selector on grid.
      *
      * @param  bool  $disable
@@ -103,7 +108,7 @@ trait CanHidesColumns
             return $this->visibleColumnsFromQuery;
         }
 
-        $columns = $input = Helper::array($this->request->get($this->getColumnSelectorQueryName()));
+        $columns = $input = Helper::array($this->request->input($this->getColumnSelectorQueryName()));
 
         if (! $input && ! $this->hasColumnSelectorRequestInput()) {
             $columns = $this->getVisibleColumnsFromStorage() ?: array_values(array_diff(

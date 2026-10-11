@@ -148,16 +148,13 @@ class AdminServiceProvider extends ServiceProvider
     }
 
     /**
-     * 禁止laravel 5.6或更高版本中启用双编码的默认特性.
+     * 禁止 blade 模板双编码.
      *
      * @return void
      */
     protected function compatibleBlade()
     {
-        $bladeReflectionClass = new \ReflectionClass('\Illuminate\View\Compilers\BladeCompiler');
-        if ($bladeReflectionClass->hasMethod('withoutDoubleEncoding')) {
-            Blade::withoutDoubleEncoding();
-        }
+        Blade::withoutDoubleEncoding();
     }
 
     /**
