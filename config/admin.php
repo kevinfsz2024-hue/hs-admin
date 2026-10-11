@@ -387,4 +387,49 @@ return [
             'points_logs' => 'member_points_logs',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 包内置的常规管理模块（系统配置 / 附件管理 / 数据导出）
+    |--------------------------------------------------------------------------
+    |
+    | 设为 false 可整体关闭该模块的路由与菜单入口。
+    |
+    */
+    'general' => [
+        'enable' => env('ADMIN_GENERAL_ENABLE', true),
+
+        'exports' => [
+            // 导出文件在 storage/app 下的目录
+            'dir' => 'general-exports',
+
+            // 导出源：名称 => 模型类 + 导出字段（字段 => 列标题），可按项目增删；
+            // requires 指向依赖模块，模块关闭时该源自动隐藏
+            'sources' => [
+                '管理员' => [
+                    'model' => \Dcat\Admin\Models\Administrator::class,
+                    'columns' => [
+                        'id' => 'ID',
+                        'username' => '用户名',
+                        'name' => '姓名',
+                        'created_at' => '创建时间',
+                    ],
+                ],
+                '会员' => [
+                    'requires' => 'member',
+                    'model' => \Dcat\Admin\Models\Member::class,
+                    'columns' => [
+                        'id' => 'ID',
+                        'username' => '用户名',
+                        'nickname' => '昵称',
+                        'mobile' => '手机号',
+                        'balance' => '余额',
+                        'points' => '积分',
+                        'status' => '状态',
+                        'created_at' => '创建时间',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ];

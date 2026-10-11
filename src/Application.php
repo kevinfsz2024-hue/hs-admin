@@ -144,6 +144,11 @@ class Application
         if (config('admin.member.enable', true) && is_file($routes = __DIR__.'/../routes/member.php')) {
             $this->loadRoutesFrom($routes, $app);
         }
+
+        // 包内置的常规管理模块路由（可通过 admin.general.enable 关闭）
+        if (config('admin.general.enable', true) && is_file($routes = __DIR__.'/../routes/general.php')) {
+            $this->loadRoutesFrom($routes, $app);
+        }
     }
 
     protected function withConfig(string $app)

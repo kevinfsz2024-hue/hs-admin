@@ -593,3 +593,17 @@ if (! function_exists('format_byte')) {
         return round($value, $dec).$prefix_arr[$i];
     }
 }
+
+if (! function_exists('general_config')) {
+    /**
+     * 读取常规管理-系统配置的配置值.
+     *
+     * @param  string  $name
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function general_config($name, $default = null)
+    {
+        return \Dcat\Admin\Models\GeneralConfig::value($name, $default);
+    }
+}
