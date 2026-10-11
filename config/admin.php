@@ -365,4 +365,26 @@ return [
         // the extension files will be generated in this directory.
         'dir' => base_path('dcat-admin-extensions'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 会员管理模块
+    |--------------------------------------------------------------------------
+    |
+    | 包内置的会员管理模块（会员 / 分组 / 规则 / 余额 / 积分）。
+    | 设为 false 可整体关闭该模块的路由与菜单入口。
+    |
+    */
+    'member' => [
+        'enable' => env('ADMIN_MEMBER_ENABLE', true),
+
+        // 数据表名，可在多项目共库等场景下自定义前缀
+        'table_names' => [
+            'users' => 'member_users',
+            'groups' => 'member_groups',
+            'rules' => 'member_rules',
+            'balance_logs' => 'member_balance_logs',
+            'points_logs' => 'member_points_logs',
+        ],
+    ],
 ];

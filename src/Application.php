@@ -139,6 +139,11 @@ class Application
         if (is_file($routes = admin_path('routes.php'))) {
             $this->loadRoutesFrom($routes, $app);
         }
+
+        // 包内置的会员管理模块路由（可通过 admin.member.enable 关闭）
+        if (config('admin.member.enable', true) && is_file($routes = __DIR__.'/../routes/member.php')) {
+            $this->loadRoutesFrom($routes, $app);
+        }
     }
 
     protected function withConfig(string $app)
