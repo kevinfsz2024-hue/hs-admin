@@ -1,6 +1,6 @@
 - Laravel Version: #.#.#
 - PHP Version: #.#.#
-- Dcat Admin Version: #.#.#
+- hs-admin Version: #.#.#
 
 ### Description:
 

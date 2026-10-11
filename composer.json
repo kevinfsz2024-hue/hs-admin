@@ -1,21 +1,22 @@
 {
-    "name": "dcat/laravel-admin",
-    "description": "dcat admin",
+    "name": "hs/hs-admin",
+    "description": "hs-admin - 基于 Dcat Admin 二次开发的后台系统构建工具，适配 Laravel 12",
     "type": "library",
     "keywords": [
-        "dcat",
+        "hs-admin",
         "laravel",
+        "laravel 12",
         "admin",
         "grid",
         "form",
         "laravel admin"
     ],
-    "homepage": "https://github.com/jqhph/dcat-admin",
+    "homepage": "https://github.com/kevinfsz2024-hue/hs-admin",
     "license": "MIT",
     "authors": [
         {
-            "name": "jqh",
-            "email": "841324345@qq.com"
+            "name": "kevinssz",
+            "email": "szhansitech@gmail.com"
         }
     ],
     "require": {
@@ -47,6 +48,9 @@
         "files": [
             "tests/helpers.php"
         ]
+    },
+    "replace": {
+        "dcat/laravel-admin": "self.version"
     },
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse",
