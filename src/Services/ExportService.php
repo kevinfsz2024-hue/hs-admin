@@ -49,11 +49,13 @@ class ExportService
     }
 
     /**
-     * 表单下拉可用的导出源.
+     * 表单下拉可用的导出源（名称 => 名称，select 以数组键作为值）.
      */
     public static function sourceOptions(): array
     {
-        return array_keys(static::sources());
+        $names = array_keys(static::sources());
+
+        return array_combine($names, $names);
     }
 
     /**

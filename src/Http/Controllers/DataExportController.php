@@ -31,13 +31,14 @@ class DataExportController extends AdminController
                 GeneralExport::STATUS_FAILED => 'danger',
                 GeneralExport::STATUS_PENDING => 'primary',
             ]);
-            $grid->column('download', '文件')->display(function ($value, $column, GeneralExport $export) {
-                if (! $export->isDone()) {
+            $grid->column('download', '文件')->display(function ($value) {
+                /* @var GeneralExport $this */
+                if (! $this->isDone()) {
                     return '—';
                 }
 
                 return '<a class="btn btn-xs btn-outline-primary" href="'
-                    .admin_url('general/exports/'.$export->id.'/download').'"><i data-feather="download"></i> 下载</a>';
+                    .admin_url('general/exports/'.$this->id.'/download').'"><i data-feather="download"></i> 下载</a>';
             });
             $grid->column('created_at', '创建时间')->sortable();
 
@@ -45,6 +46,11 @@ class DataExportController extends AdminController
                 $filter->like('name', '导出名称');
                 $filter->equal('status', '状态')->select(GeneralExport::$statusMap);
             });
+
+            // 导出记录为任务结果快照，不允许编辑/查看
+            $grid->disableEditButton();
+            $grid->disableQuickEditButton();
+            $grid->disableViewButton();
 
             $grid->quickSearch('name', 'source');
         });
