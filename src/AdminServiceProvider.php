@@ -95,6 +95,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->registerServices();
         $this->registerExtensions();
 
+        // 包内置会员模块的数据表迁移（database/members，无需发布即可使用）
+        $this->loadMigrationsFrom(__DIR__.'/../database/members');
+
         $this->commands($this->commands);
 
         if (config('app.debug')) {

@@ -55,6 +55,7 @@ abstract class TestCase extends BaseTestCase
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom(realpath(__DIR__.'/../database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../database/members'));
         $this->artisan('migrate', ['--database' => 'testing'])->run();
     }
 }
