@@ -24,6 +24,15 @@ abstract class TestCase extends BaseTestCase
 
         $app['config']->set('admin', $admin);
 
+        // 包的 AdminServiceProvider 在 testbench 中先于 defineEnvironment 注册，
+        // 需要在这里补上 auth guard/provider 注入（等价于 loadAdminAuthConfig）
+        foreach (($admin['auth']['guards'] ?? []) as $key => $guard) {
+            $app['config']->set("auth.guards.{$key}", $guard);
+        }
+        foreach (($admin['auth']['providers'] ?? []) as $key => $provider) {
+            $app['config']->set("auth.providers.{$key}", $provider);
+        }
+
         $filesystems = test_resource_path('config/filesystems.php');
         if (is_file($filesystems)) {
             $app['config']->set('filesystems', array_merge(

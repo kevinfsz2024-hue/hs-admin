@@ -12,3 +12,4 @@ pre-dist
 .DS_Store
 
 .phpunit.cache/
+laravel-tests/
