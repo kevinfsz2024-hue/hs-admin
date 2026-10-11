@@ -36,7 +36,8 @@ class HasMany extends Component
     {
         $browser->assertVisible('@container')
             ->assertVisible('@add')
-            ->assertVisible('@forms');
+            // 新增页面容器可能为空（高为 0），W3C 协议下 0 高度元素不算可见，只断言存在
+            ->assertPresent('@forms');
     }
 
     /**

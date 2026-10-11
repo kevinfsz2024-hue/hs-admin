@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser;
 
 use Dcat\Admin\Admin;
 use Tests\DuskTestCase;

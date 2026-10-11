@@ -7,6 +7,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use PHPUnit\Framework\Attributes\BeforeClass;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -45,14 +46,18 @@ abstract class DuskTestCase extends BaseTestCase
 
     /**
      * Prepare for Dusk test execution.
-     *
-     * @beforeClass
-     *
-     * @return void
      */
+    #[BeforeClass]
     public static function prepare()
     {
-        static::startChromeDriver();
+        // 允许通过设置 DUSK_EXTERNAL_DRIVER=1 连接外部已启动的 chromedriver
+        if (getenv('DUSK_EXTERNAL_DRIVER')) {
+            return;
+        }
+
+        // Dusk 8 启动 chromedriver 时不再默认指定端口（默认 9511），
+        // 而 driver() 连接的是 9515，这里显式对齐
+        static::startChromeDriver(['--port=9515']);
     }
 
     /**
@@ -81,27 +86,15 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $options = (new ChromeOptions)->addArguments([
             '--disable-gpu',
-            '--headless',
+            '--headless=new',
             '--window-size=1920,1080',
         ]);
 
         return RemoteWebDriver::create(
-            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY_W3C, $options
             )
         );
-    }
-
-    /**
-     * Build the process to run the Chromedriver.
-     *
-     * @param  array  $arguments
-     * @return \Symfony\Component\Process\Process
-     *
-     * @throws \RuntimeException
-     */
-    protected static function buildChromeProcess(array $arguments = [])
-    {
-        return (new ChromeProcess(static::$chromeDriver))->toProcess($arguments);
     }
 }
