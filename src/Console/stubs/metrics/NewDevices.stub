@@ -7,7 +7,7 @@ use Dcat\Admin\Widgets\Metrics\Donut;
 
 class NewDevices extends Donut
 {
-    protected $labels = ['Desktop', 'Mobile'];
+    protected $labels = ['桌面端', '移动端'];
 
     /**
      * 初始化卡片内容
@@ -19,8 +19,8 @@ class NewDevices extends Donut
         $color = Admin::color();
         $colors = [$color->primary(), $color->alpha('blue2', 0.5)];
 
-        $this->title('New Devices');
-        $this->subTitle('Last 30 days');
+        $this->title('新增设备');
+        $this->subTitle('近 30 天');
         $this->chartLabels($this->labels);
         // 设置图表颜色
         $this->chartColors($colors);

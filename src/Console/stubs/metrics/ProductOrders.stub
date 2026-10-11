@@ -14,13 +14,13 @@ class ProductOrders extends Round
     {
         parent::init();
 
-        $this->title('Product Orders');
-        $this->chartLabels(['Finished', 'Pending', 'Rejected']);
+        $this->title('产品订单');
+        $this->chartLabels(['已完成', '待处理', '已拒绝']);
         $this->dropdown([
-            '7' => 'Last 7 Days',
-            '28' => 'Last 28 Days',
-            '30' => 'Last Month',
-            '365' => 'Last Year',
+            '7' => '近 7 天',
+            '28' => '近 28 天',
+            '30' => '上月',
+            '365' => '去年',
         ]);
     }
 
@@ -46,7 +46,7 @@ class ProductOrders extends Round
                 $this->withChart([70, 52, 26]);
 
                 // 总数
-                $this->chartTotal('Total', 344);
+                $this->chartTotal('总计', 344);
         }
     }
 
@@ -81,7 +81,7 @@ class ProductOrders extends Round
     <div class="chart-info d-flex justify-content-between mb-1 mt-2" >
           <div class="series-info d-flex align-items-center">
               <i class="fa fa-circle-o text-bold-700 text-primary"></i>
-              <span class="text-bold-600 ml-50">Finished</span>
+              <span class="text-bold-600 ml-50">已完成</span>
           </div>
           <div class="product-result">
               <span>{$finished}</span>
@@ -91,7 +91,7 @@ class ProductOrders extends Round
     <div class="chart-info d-flex justify-content-between mb-1">
           <div class="series-info d-flex align-items-center">
               <i class="fa fa-circle-o text-bold-700 text-warning"></i>
-              <span class="text-bold-600 ml-50">Pending</span>
+              <span class="text-bold-600 ml-50">待处理</span>
           </div>
           <div class="product-result">
               <span>{$pending}</span>
@@ -101,7 +101,7 @@ class ProductOrders extends Round
      <div class="chart-info d-flex justify-content-between mb-1">
           <div class="series-info d-flex align-items-center">
               <i class="fa fa-circle-o text-bold-700 text-danger"></i>
-              <span class="text-bold-600 ml-50">Rejected</span>
+              <span class="text-bold-600 ml-50">已拒绝</span>
           </div>
           <div class="product-result">
               <span>{$rejected}</span>

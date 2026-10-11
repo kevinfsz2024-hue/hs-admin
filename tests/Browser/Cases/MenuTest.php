@@ -38,6 +38,8 @@ class MenuTest extends DuskTestCase
                 'permissions' => [4, 5],
             ];
 
+            $baseCount = Menu::count();
+
             $browser
                 ->visit(new MenuPage())
                 ->newMenu($item)
@@ -47,20 +49,27 @@ class MenuTest extends DuskTestCase
 
             // 检测是否写入数据库
             $this->assertDatabase($newMenuId, $item);
-            $this->assertEquals(8, Menu::count());
+            $this->assertEquals($baseCount + 1, Menu::count());
         });
     }
 
     public function testDeleteMenu()
     {
-        $this->delete('admin/auth/menu/8');
-        $this->assertEquals(7, Menu::count());
+        $count = Menu::count();
+        $id = Menu::query()->orderByDesc('id')->first()->id;
+
+        // 内部 HTTP 请求需要登录态，否则会被认证中间件拦截
+        $this->actingAs(\Dcat\Admin\Models\Administrator::first(), 'admin')
+            ->delete('admin/auth/menu/'.$id);
+
+        $this->assertEquals($count - 1, Menu::count());
     }
 
     public function testEditMenu()
     {
         $this->browse(function (Browser $browser) {
             $newTitle = 'blablabla';
+            $count = Menu::count();
 
             $browser->visit(new MenuEditPage(1));
 
@@ -70,7 +79,7 @@ class MenuTest extends DuskTestCase
                 ->waitForLocation(admin_base_path('auth/menu'), 2);
 
             $this->seeInDatabase(config('admin.database.menu_table'), ['title' => $newTitle])
-                ->assertEquals(7, Menu::count());
+                ->assertEquals($count, Menu::count());
         });
     }
 

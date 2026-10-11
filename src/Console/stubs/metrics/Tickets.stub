@@ -14,15 +14,15 @@ class Tickets extends RadialBar
     {
         parent::init();
 
-        $this->title('Tickets');
+        $this->title('工单');
         $this->height(400);
         $this->chartHeight(300);
-        $this->chartLabels('Completed Tickets');
+        $this->chartLabels('已完成工单');
         $this->dropdown([
-            '7' => 'Last 7 Days',
-            '28' => 'Last 28 Days',
-            '30' => 'Last Month',
-            '365' => 'Last Year',
+            '7' => '近 7 天',
+            '28' => '近 28 天',
+            '30' => '上月',
+            '365' => '去年',
         ]);
     }
 
@@ -77,7 +77,7 @@ class Tickets extends RadialBar
             <<<HTML
 <div class="d-flex flex-column flex-wrap text-center">
     <h1 class="font-lg-2 mt-2 mb-0">{$content}</h1>
-    <small>Tickets</small>
+    <small>工单</small>
 </div>
 HTML
         );
@@ -98,15 +98,15 @@ HTML
             <<<HTML
 <div class="d-flex justify-content-between p-1" style="padding-top: 0!important;">
     <div class="text-center">
-        <p>New Tickets</p>
+        <p>新增工单</p>
         <span class="font-lg-1">{$new}</span>
     </div>
     <div class="text-center">
-        <p>Open Tickets</p>
+        <p>未处理工单</p>
         <span class="font-lg-1">{$open}</span>
     </div>
     <div class="text-center">
-        <p>Response Time</p>
+        <p>响应时长</p>
         <span class="font-lg-1">{$response}</span>
     </div>
 </div>
