@@ -116,6 +116,10 @@
 
             </div>
         </div>
+
+        @if($icp = general_config('icp'))
+            <p class="text-center mt-2 mb-0" style="font-size: .8rem; color: rgba(255,255,255,.6)">{!! $icp !!}</p>
+        @endif
     </div>
 </div>
 

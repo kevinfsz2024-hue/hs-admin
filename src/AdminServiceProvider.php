@@ -12,6 +12,7 @@ use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Layout\Menu;
 use Dcat\Admin\Layout\Navbar;
 use Dcat\Admin\Layout\SectionManager;
+use Dcat\Admin\Models\GeneralConfig;
 use Dcat\Admin\Support\Context;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Support\Setting;
@@ -110,6 +111,9 @@ class AdminServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // 在路由注册前应用常规管理-系统配置（站点名称 / 后台入口 / 时区）
+        $this->applyGeneralConfig();
+
         $this->registerDefaultSections();
         $this->registerViews();
         $this->ensureHttps();
@@ -151,6 +155,41 @@ class AdminServiceProvider extends ServiceProvider
     protected function bootApplication()
     {
         Admin::app()->boot();
+    }
+
+    /**
+     * 应用常规管理-系统配置，使站点名称 / 自定义后台入口 / 时区真正生效.
+     *
+     * 在路由注册前执行；general_configs 表不存在（如安装期间）时静默跳过。
+     */
+    protected function applyGeneralConfig()
+    {
+        try {
+            $config = GeneralConfig::values(['site_name', 'admin_entry', 'timezone']);
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        if (($siteName = $config['site_name'] ?? null) !== null && $siteName !== '') {
+            config(['admin.name' => $siteName, 'admin.title' => $siteName]);
+
+            // 默认 logo HTML 在 &nbsp; 后带有品牌文字，同步替换为站点名称
+            $logo = config('admin.logo');
+            if ($logo && preg_match('/^(.*&nbsp;).+$/s', $logo, $matches)) {
+                config(['admin.logo' => $matches[1].htmlspecialchars($siteName, ENT_QUOTES, 'UTF-8')]);
+            }
+        }
+
+        if (($timezone = $config['timezone'] ?? null)
+            && in_array($timezone, timezone_identifiers_list(), true)) {
+            config(['app.timezone' => $timezone]);
+            date_default_timezone_set($timezone);
+        }
+
+        if (($entry = $config['admin_entry'] ?? null)
+            && preg_match('/^[a-zA-Z0-9\-_\/]{2,64}$/', $entry = trim($entry, '/'))) {
+            config(['admin.route.prefix' => $entry]);
+        }
     }
 
     /**
@@ -281,6 +320,12 @@ PHP;
             if ($disablePermission) {
                 Helper::deleteByValue($middleware, 'admin.permission', true);
             }
+
+            // 常规管理模块开启时，系统配置中的禁止访问 IP 对后台全部路由生效
+            if ($key === 'admin' && config('admin.general.enable', true)) {
+                array_unshift($middleware, Http\Middleware\DenyIpsMiddleware::class);
+            }
+
             $router->middlewareGroup($key, $middleware);
         }
     }

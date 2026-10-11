@@ -598,12 +598,18 @@ if (! function_exists('general_config')) {
     /**
      * 读取常规管理-系统配置的配置值.
      *
+     * 在表不存在（如安装期间）等场景下静默返回默认值.
+     *
      * @param  string  $name
      * @param  mixed  $default
      * @return mixed
      */
     function general_config($name, $default = null)
     {
-        return \Dcat\Admin\Models\GeneralConfig::value($name, $default);
+        try {
+            return \Dcat\Admin\Models\GeneralConfig::getValue($name, $default);
+        } catch (\Throwable $e) {
+            return $default;
+        }
     }
 }
