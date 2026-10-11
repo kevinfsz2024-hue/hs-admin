@@ -6,8 +6,6 @@ use Dcat\Admin\Admin;
 
 class Translator
 {
-    protected static $method;
-
     /**
      * @var \Illuminate\Contracts\Translation\Translator
      */
@@ -109,10 +107,6 @@ class Translator
 
     protected function getTranslateMethod()
     {
-        if (static::$method === null) {
-            static::$method = version_compare(app()->version(), '6.0', '>=') ? 'get' : 'trans';
-        }
-
-        return static::$method;
+        return 'get';
     }
 }

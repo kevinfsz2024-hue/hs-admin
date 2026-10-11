@@ -475,11 +475,7 @@ class Model
         $this->paginator = $paginator;
 
         if ($this->simple) {
-            if (method_exists($paginator, 'withQueryString')) {
-                $paginator->withQueryString();
-            } else {
-                $paginator->appends(request()->all());
-            }
+            $paginator->withQueryString();
         }
 
         $paginator->setPageName($this->getPageName());
@@ -511,7 +507,7 @@ class Model
             return;
         }
 
-        return $this->currentPage ?: ($this->currentPage = ($this->request->get($this->getPageName()) ?: 1));
+        return $this->currentPage ?: ($this->currentPage = ($this->request->input($this->getPageName()) ?: 1));
     }
 
     /**
@@ -535,7 +531,7 @@ class Model
             return;
         }
 
-        $perPage = $this->request->get($this->getPerPageName()) ?: $this->perPage;
+        $perPage = $this->request->input($this->getPerPageName()) ?: $this->perPage;
         if ($perPage) {
             return (int) $perPage;
         }
@@ -586,7 +582,7 @@ class Model
     public function getSort()
     {
         if (empty($this->sort)) {
-            $this->sort = $this->request->get($this->getSortName());
+            $this->sort = $this->request->input($this->getSortName());
         }
 
         if (empty($this->sort['column']) || empty($this->sort['type'])) {
