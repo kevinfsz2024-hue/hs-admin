@@ -22,12 +22,16 @@ class BasicConfigForm extends Form
             ->default(general_config('admin_entry') ?: config('admin.route.prefix'));
 
         $this->text('icp', '备案号')
-            ->help('展示在登录页底部，可为空')
+            ->help('展示在后台页脚与登录页底部，可为空')
             ->default(general_config('icp'));
 
         $this->text('version', '版本号')
-            ->help('展示用，不影响包版本')
-            ->default(general_config('version') ?: 'v1.0.0');
+            ->help('展示在后台页脚，留空时显示包版本')
+            ->default(general_config('version') ?: 'v'.Dcat\Admin\Admin::VERSION);
+
+        $this->text('service_phone', '客服电话')
+            ->help('展示在后台页脚与登录页底部，可为空')
+            ->default(general_config('service_phone'));
 
         $this->select('timezone', '时区')
             ->options(array_combine([
@@ -73,10 +77,17 @@ class BasicConfigForm extends Form
             return $this->response()->error('后台入口格式不正确：仅允许字母、数字、-、_、/，长度 2~64');
         }
 
+        $phone = trim((string) ($input['service_phone'] ?? ''));
+        if ($phone !== '' && ! preg_match('/^[0-9\+\-\s()]{5,30}$/', $phone)) {
+            return $this->response()->error('客服电话格式不正确：仅允许数字、+、-、空格和括号，长度 5~30');
+        }
+
         GeneralConfig::store('site_name', $siteName);
         GeneralConfig::store('admin_entry', $entry !== '' ? '/'.$entry : null);
         GeneralConfig::store('icp', trim($input['icp'] ?? '') ?: null);
         GeneralConfig::store('version', trim($input['version'] ?? '') ?: null);
+        GeneralConfig::store('service_phone', $phone ?: null);
+
         GeneralConfig::store('timezone', $input['timezone'] ?? null);
         GeneralConfig::store('deny_ip', trim($input['deny_ip'] ?? '') ?: null);
 
