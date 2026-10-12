@@ -149,6 +149,11 @@ class Application
         if (config('admin.general.enable', true) && is_file($routes = __DIR__.'/../routes/general.php')) {
             $this->loadRoutesFrom($routes, $app);
         }
+
+        // 包内置的数据安全管理模块路由（可通过 admin.security.enable 关闭）
+        if (config('admin.security.enable', true) && is_file($routes = __DIR__.'/../routes/security.php')) {
+            $this->loadRoutesFrom($routes, $app);
+        }
     }
 
     protected function withConfig(string $app)
