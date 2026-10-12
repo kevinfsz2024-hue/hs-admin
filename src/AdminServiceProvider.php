@@ -102,6 +102,9 @@ class AdminServiceProvider extends ServiceProvider
         // 包内置常规管理模块的数据表迁移（database/generals，无需发布即可使用）
         $this->loadMigrationsFrom(__DIR__.'/../database/generals');
 
+        // 包内置数据安全管理模块的数据表迁移（database/security，无需发布即可使用）
+        $this->loadMigrationsFrom(__DIR__.'/../database/security');
+
         $this->commands($this->commands);
 
         if (config('app.debug')) {
@@ -113,6 +116,9 @@ class AdminServiceProvider extends ServiceProvider
     {
         // 在路由注册前应用常规管理-系统配置（站点名称 / 后台入口 / 时区）
         $this->applyGeneralConfig();
+
+        // 注册数据安全管理的 Form 全局事件监听（删除回收 / 敏感字段审计）
+        Services\DataSecurityService::register();
 
         $this->registerDefaultSections();
         $this->registerViews();

@@ -4,6 +4,8 @@ namespace Dcat\Admin\Models;
 
 use Dcat\Admin\Support\GeneralMenus;
 use Dcat\Admin\Support\MemberMenus;
+use Dcat\Admin\Support\SecurityMenus;
+use Dcat\Admin\Support\SecurityRules;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -178,6 +180,16 @@ class AdminTablesSeeder extends Seeder
         // 重置数据会清空菜单表，这里补回常规管理模块菜单
         if (config('admin.general.enable', true)) {
             GeneralMenus::seed();
+        }
+
+        // 重置数据会清空菜单表，这里补回数据安全管理模块菜单
+        if (config('admin.security.enable', true)) {
+            SecurityMenus::seed();
+        }
+
+        // 补回数据安全管理模块的核心回收规则与敏感字段规则
+        if (config('admin.security.enable', true)) {
+            SecurityRules::seed();
         }
     }
 }
