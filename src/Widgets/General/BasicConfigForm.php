@@ -27,7 +27,7 @@ class BasicConfigForm extends Form
 
         $this->text('version', '版本号')
             ->help('展示在后台页脚，留空时显示包版本')
-            ->default(general_config('version') ?: 'v'.Dcat\Admin\Admin::VERSION);
+            ->default(general_config('version') ?: 'v'.\Dcat\Admin\Admin::VERSION);
 
         $this->text('service_phone', '客服电话')
             ->help('展示在后台页脚与登录页底部，可为空')
